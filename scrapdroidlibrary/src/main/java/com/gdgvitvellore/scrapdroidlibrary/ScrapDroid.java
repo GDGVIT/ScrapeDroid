@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,6 +53,24 @@ public class ScrapDroid {
     {
 
         String response=getResponse();
+
+
+        Document document= Jsoup.parse(response);
+
+
+        for (Map.Entry<Object,Object> e : params.entrySet()) {
+
+            Elements links = document.select((String) e.getValue());
+
+            String test= links.attr("href");
+
+
+            Log.v("test",test);
+
+        }
+
+
+
 
 
     }

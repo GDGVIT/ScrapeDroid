@@ -18,7 +18,7 @@ public class ScrapperActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrapper);
 
-        params.put("para","<img src=");
+        params.put("para","link");
         new ScrapDroid().getTagsAsList(params);
     }
 }
