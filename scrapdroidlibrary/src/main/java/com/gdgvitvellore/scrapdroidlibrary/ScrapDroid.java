@@ -3,12 +3,17 @@ package com.gdgvitvellore.scrapdroidlibrary;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -24,7 +29,7 @@ public class ScrapDroid {
 
         try {
           response =new FetchResponse().execute().get();
-          Log.v("response",response);
+
         }
         catch (InterruptedException e) {
 
@@ -37,6 +42,15 @@ public class ScrapDroid {
         }
 
         return response;
+
+    }
+
+
+    public void getTagsAsList(HashMap<Object,Object> params)
+    {
+
+        String response=getResponse();
+
 
     }
 
@@ -56,7 +70,7 @@ public class ScrapDroid {
 
             try {
 
-                URL url = new URL("http://gdgvitvellore.com/");
+                URL url = new URL("http://blog.gdgvitvellore.com/");
 
                 // Create the request to OpenWeatherMap, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -83,11 +97,12 @@ public class ScrapDroid {
                     return null;
                 }
                 response = buffer.toString();
-                Log.v("response",response);
+
 
                 return response;
             } catch (IOException e) {
-                Log.e("PlaceholderFragment", "Error ", e);
+
+                e.printStackTrace();
 
                 return null;
             } finally{
@@ -106,9 +121,7 @@ public class ScrapDroid {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.v("response",s);
-
-
+          //  Log.v("response",s);
         }
     }
 }

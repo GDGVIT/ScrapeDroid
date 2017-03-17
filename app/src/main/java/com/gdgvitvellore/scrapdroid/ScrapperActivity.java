@@ -6,13 +6,19 @@ import android.util.Log;
 
 import com.gdgvitvellore.scrapdroidlibrary.ScrapDroid;
 
+import java.util.HashMap;
+
 public class ScrapperActivity extends AppCompatActivity {
 
+
+    HashMap<Object,Object> params=new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrapper);
-        Log.v("response_view",new ScrapDroid().getResponse());
+
+        params.put("para","<img src=");
+        new ScrapDroid().getTagsAsList(params);
     }
 }
