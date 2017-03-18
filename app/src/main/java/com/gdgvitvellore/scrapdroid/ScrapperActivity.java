@@ -17,9 +17,10 @@ public class ScrapperActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrapper);
-      //  params.put("para","link")
 
-        params.put("name","{'element':'a[class=author waves-effect waves-dark grey lighten-4]','attr':'href'}");
-        new ScrapDroid().getTagsAsList(params);
+        params.put("name","[{'element':'a[class=author waves-effect waves-dark grey lighten-4]','attr':'text'}]");
+        params.put("content","{'element':'time','attr':'text'}");
+
+        new ScrapDroid().getAPI(params);
     }
 }

@@ -18,8 +18,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -52,7 +54,7 @@ public class ScrapDroid {
     }
 
 
-    public void getTagsAsList(HashMap<String,String> params)
+    public void getAPI(HashMap<String,String> params)
     {
 
         String response=getResponse();
@@ -61,29 +63,54 @@ public class ScrapDroid {
         Document document= Jsoup.parse(response);
 
 
-        for (Map.Entry<String,String> e : params.entrySet()) {
+        Set keys = params.keySet();
 
-            
-            String jsonParam=e.getValue();
-            String element = null,attr = null;
-                    
-            try {
-               
-                JSONObject jsonObject=new JSONObject(jsonParam);
-                element=jsonObject.getString("element");
-                attr=jsonObject.getString("attr");
-            
-            } catch (JSONException e1) {
-                e1.printStackTrace();
+        for (Iterator i = keys.iterator(); i.hasNext(); ) {
+            String key = (String) i.next();
+            String value = (String) params.get(key);
+
+
+            Log.v("values", value);
+            String jsonParam = value;
+
+
+            String element = null, attr = null;
+
+            if (jsonParam.startsWith("{") && jsonParam.endsWith("}")) {
+                try {
+
+                    JSONObject jsonObject = new JSONObject(jsonParam);
+                    element = jsonObject.getString("element");
+                    attr = jsonObject.getString("attr");
+
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+
+                Elements links = document.select(element);
+
+                if (attr.equals("text")) {
+                    Log.v("attr", links.get(0).text());
+                } else {
+                    Log.v("attr", links.attr(attr));
+                }
             }
 
-            Elements links = document.select(element);
+            else if (jsonParam.startsWith("[") && jsonParam.endsWith("]"))
+            {
+                try {
 
-            Log.v("hu",links.get(1).attr(attr));
+                    JSONArray jsonArray=new JSONArray(jsonParam);
+                    element = jsonArray.getJSONObject(0).getString("element");
+                    attr = jsonArray.getJSONObject(0).getString("attr");
+                    
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
         }
-
-
 
 
 
