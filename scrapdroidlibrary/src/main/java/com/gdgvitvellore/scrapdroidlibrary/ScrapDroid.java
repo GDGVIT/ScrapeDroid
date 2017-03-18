@@ -4,8 +4,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
@@ -49,7 +52,7 @@ public class ScrapDroid {
     }
 
 
-    public void getTagsAsList(HashMap<Object,Object> params)
+    public void getTagsAsList(HashMap<String,String> params)
     {
 
         String response=getResponse();
@@ -58,14 +61,25 @@ public class ScrapDroid {
         Document document= Jsoup.parse(response);
 
 
-        for (Map.Entry<Object,Object> e : params.entrySet()) {
+        for (Map.Entry<String,String> e : params.entrySet()) {
 
-            Elements links = document.select((String) e.getValue());
+            
+            String jsonParam=e.getValue();
+            String element = null,attr = null;
+                    
+            try {
+               
+                JSONObject jsonObject=new JSONObject(jsonParam);
+                element=jsonObject.getString("element");
+                attr=jsonObject.getString("attr");
+            
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
 
-            String test= links.attr("href");
+            Elements links = document.select(element);
 
-
-            Log.v("test",test);
+            Log.v("hu",links.get(1).attr(attr));
 
         }
 

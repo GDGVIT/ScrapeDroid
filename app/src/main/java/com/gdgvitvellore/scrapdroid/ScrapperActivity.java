@@ -11,14 +11,15 @@ import java.util.HashMap;
 public class ScrapperActivity extends AppCompatActivity {
 
 
-    HashMap<Object,Object> params=new HashMap<>();
+    HashMap<String,String> params=new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrapper);
+      //  params.put("para","link")
 
-        params.put("para","link");
+        params.put("name","{'element':'a[class=author waves-effect waves-dark grey lighten-4]','attr':'href'}");
         new ScrapDroid().getTagsAsList(params);
     }
 }
