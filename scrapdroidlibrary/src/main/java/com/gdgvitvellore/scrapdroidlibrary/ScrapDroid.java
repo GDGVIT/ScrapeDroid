@@ -17,8 +17,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -29,6 +31,19 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class ScrapDroid {
+
+
+    HashMap<String,Object> apiResponsemap;
+    List<String> apiResponsevalues;
+
+
+    public ScrapDroid()
+    {
+       apiResponsemap =new HashMap<>();
+       apiResponsevalues=new ArrayList<>();
+    }
+
+
 
 
     public String getResponse()
@@ -54,8 +69,17 @@ public class ScrapDroid {
     }
 
 
-    public void getAPI(HashMap<String,String> params)
+    public String formJSON(HashMap<String,Object> api)
     {
+
+        return new JSONObject(api).toString();
+    }
+
+
+    public HashMap<String,Object> getAPI(HashMap<String,String> params)
+    {
+
+
 
         String response=getResponse();
 
@@ -103,8 +127,26 @@ public class ScrapDroid {
                     JSONArray jsonArray=new JSONArray(jsonParam);
                     element = jsonArray.getJSONObject(0).getString("element");
                     attr = jsonArray.getJSONObject(0).getString("attr");
-                    
+                    Elements links = document.select(element);
 
+                    if (attr.equals("text"))
+                    {
+                        for (int k = 0; k < links.size(); k++) {
+                            Log.v("list", links.get(k).text());
+                            apiResponsevalues.add(links.get(k).text());
+                        }
+
+                        apiResponsemap.put(key,apiResponsevalues);
+                    }
+                    else {
+
+                        for (int k = 0; k < links.size(); k++) {
+                            Log.v("list", links.get(k).attr(attr));
+
+                        }
+
+
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -114,7 +156,15 @@ public class ScrapDroid {
 
 
 
+
+
+        return apiResponsemap;
+
+
     }
+
+
+
 
 
 

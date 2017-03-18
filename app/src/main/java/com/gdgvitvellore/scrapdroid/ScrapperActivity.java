@@ -19,8 +19,8 @@ public class ScrapperActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scrapper);
 
         params.put("name","[{'element':'a[class=author waves-effect waves-dark grey lighten-4]','attr':'text'}]");
-        params.put("content","{'element':'time','attr':'text'}");
+       // params.put("content","{'element':'time','attr':'text'}");
 
-        new ScrapDroid().getAPI(params);
+        Log.v("jsonApi",new ScrapDroid().formJSON(new ScrapDroid().getAPI(params)));
     }
 }
