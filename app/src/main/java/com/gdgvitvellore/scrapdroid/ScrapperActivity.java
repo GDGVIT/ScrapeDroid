@@ -24,3 +24,4 @@ public class ScrapperActivity extends AppCompatActivity {
         Log.v("jsonApi",new ScrapDroid().formJSON(new ScrapDroid().getAPI(params)));
     }
 }
+
