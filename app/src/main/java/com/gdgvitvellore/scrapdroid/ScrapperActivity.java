@@ -25,4 +25,3 @@ public class ScrapperActivity extends AppCompatActivity {
     }
 }
 
-//To check if git is working?
